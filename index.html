@@ -1,201 +1,565 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>M1SLY — Roblox UI Designer</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Mono&family=Playfair+Display:wght@900&family=Bebas+Neue&family=Courier+Prime:wght@700&display=swap" rel="stylesheet"/>
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#080808;--bg2:#0f0f0f;--bg3:#141414;--bg4:#1a1a1a;
-  --neon:#00ff88;--neon2:#00d4ff;--neonpk:#ff2d78;
-  --tx:#f0f0f0;--tx2:#a0a0a0;--tx3:#505050;
-  --border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.12);
-  --card:rgba(15,15,15,.95);
-  --glow-g:0 0 40px rgba(0,255,136,.2);
-  --glow-b:0 0 40px rgba(0,212,255,.2);
-  --glow-p:0 0 40px rgba(255,45,120,.2);
-}
-html{scroll-behavior:smooth}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);overflow-x:hidden}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>stor4m - Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-/* NOISE & GRID */
-body::before{content:'';position:fixed;inset:0;z-index:0;opacity:.025;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
-body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.04;background-image:linear-gradient(rgba(255,255,255,.5) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.5) 1px,transparent 1px);background-size:80px 80px;}
+        :root {
+            --primary: #7c3aed;
+            --secondary: #a78bfa;
+            --dark: #0f0f23;
+            --darker: #050510;
+            --light: #e9d5ff;
+            --text: #e2e8f0;
+            --text-dim: #94a3b8;
+            --success: #10b981;
+            --danger: #ef4444;
+        }
 
-/* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:999;padding:18px 56px;display:flex;align-items:center;justify-content:space-between;background:rgba(8,8,8,.92);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
-.logo{font-weight:900;font-size:1.2rem;letter-spacing:3px;text-transform:uppercase;color:var(--tx);text-decoration:none;transition: 0.2s;}
-.nav-links{display:flex;gap:36px;list-style:none}
-.nav-links a{color:var(--tx3);text-decoration:none;font-size:.8rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;transition:color .2s}
-.nav-links a:hover{color:var(--tx)}
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
 
-/* BUTTONS */
-.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border-radius:4px;font-family:'Inter',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;text-decoration:none;border:none;transition:all .25s}
-.btn-neon{background:var(--neon);color:#000;box-shadow:0 0 20px rgba(0,255,136,.3)}
-.btn-ghost{background:transparent;border:1px solid var(--border2);color:var(--tx)}
-.btn-discord{background:#5865F2;color:#fff}
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
-/* HERO */
-#hero{min-height:100vh;display:flex;align-items:center;padding:120px 56px 80px;gap:80px;position:relative;z-index:1;justify-content:space-between}
-.hero-l{max-width:580px}
-.hero-eyebrow{display:inline-flex;align-items:center;gap:10px;margin-bottom:28px;font-size:.72rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--tx3)}
-.hero-dot{width:6px;height:6px;border-radius:50%;background:var(--neon);box-shadow:0 0 8px var(--neon)}
-.hero-title{font-size:clamp(3rem,5.5vw,5rem);font-weight:900;line-height:1;letter-spacing:-3px;margin-bottom:8px;text-transform:uppercase}
-.nt{display:block;color:var(--neon);text-shadow:0 0 40px rgba(0,255,136,.4)}
+        /* Header */
+        header {
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 2px solid rgba(124, 58, 237, 0.3);
+            margin-bottom: 40px;
+        }
 
-/* SECTIONS */
-.si{max-width:1100px;margin:0 auto;padding:88px 56px}
-.sec-head{margin-bottom:56px}
-.sec-num{font-size:.68rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--neon);margin-bottom:8px}
-.sec-title{font-size:clamp(1.8rem,3vw,2.8rem);font-weight:900;letter-spacing:-2px;text-transform:uppercase;line-height:1}
+        .avatar {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid var(--primary);
+            box-shadow: 0 0 30px rgba(124, 58, 237, 0.5);
+        }
 
-/* ABOUT */
-.srv-grid{display:flex;flex-direction:column;gap:1px;margin-top:32px;border:1px solid var(--border)}
-.srv{display:flex;align-items:center;gap:16px;padding:16px 20px;background:var(--card);border-bottom:1px solid var(--border)}
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
-/* PRICING */
-.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border)}
-.pc{background:var(--bg2);padding:32px 28px;transition:all .3s}
+        h1 {
+            font-size: 2.5em;
+            color: var(--light);
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(124, 58, 237, 0.5);
+        }
 
-/* WORK & TWITTER */
-.twitter-wrapper {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 10px;
-    box-shadow: var(--glow-g);
-}
+        .subtitle {
+            color: var(--text-dim);
+            font-size: 1.1em;
+            margin-bottom: 30px;
+        }
 
-/* CONTACT FORM */
-.contact-form{display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border)}
-.fg{display:flex;flex-direction:column;background:var(--bg)}
-.fg label{font-size:.62rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--tx3);padding:14px 16px 0}
-.fg input,.fg textarea,.fg select{background:transparent;border:none;padding:10px 16px 14px;color:var(--tx);font-family:inherit;outline:none}
+        /* Navigation */
+        nav {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
 
-/* GİZLİ PANEL */
-#ep{display:none;position:fixed;bottom:24px;right:24px;z-index:9999;background:var(--bg2);border:1px solid var(--neon);padding:20px;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.7)}
+        .nav-link {
+            color: var(--text);
+            text-decoration: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            background: rgba(124, 58, 237, 0.1);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
 
-@media(max-width:800px){
-  nav{padding:14px 20px}
-  #hero{flex-direction:column;padding:100px 20px 60px}
-  .price-grid{grid-template-columns:1fr}
-}
-</style>
+        .nav-link:hover, .nav-link.active {
+            background: var(--primary);
+            border-color: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(124, 58, 237, 0.4);
+        }
+
+        /* Sections */
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 2em;
+            margin-bottom: 30px;
+            color: var(--light);
+            text-align: center;
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .hero h2 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.3em;
+            color: var(--text-dim);
+            margin-bottom: 40px;
+        }
+
+        .stats {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            padding: 30px;
+            background: rgba(124, 58, 237, 0.1);
+            border-radius: 15px;
+            border: 2px solid var(--primary);
+            min-width: 150px;
+        }
+
+        .stat-number {
+            font-size: 3em;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            color: var(--text-dim);
+        }
+
+        /* Activities */
+        .activities {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .activity-card {
+            background: rgba(124, 58, 237, 0.05);
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid rgba(124, 58, 237, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .activity-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.3);
+        }
+
+        .activity-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .activity-card h3 {
+            color: var(--light);
+            margin-bottom: 10px;
+        }
+
+        .activity-card p {
+            color: var(--text-dim);
+        }
+
+        /* Projects */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .project-card {
+            background: rgba(124, 58, 237, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 2px solid rgba(124, 58, 237, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.3);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .project-content {
+            padding: 20px;
+        }
+
+        .project-title {
+            font-size: 1.3em;
+            color: var(--light);
+            margin-bottom: 10px;
+        }
+
+        .project-description {
+            color: var(--text-dim);
+            margin-bottom: 15px;
+        }
+
+        .project-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .project-link:hover {
+            color: var(--secondary);
+        }
+
+        /* Terms */
+        .terms-box {
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px solid var(--danger);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .terms-box h3 {
+            color: var(--danger);
+            margin-bottom: 15px;
+        }
+
+        .terms-list {
+            list-style: none;
+        }
+
+        .terms-list li {
+            padding: 8px 0;
+        }
+
+        /* Form */
+        .contact-form {
+            background: rgba(124, 58, 237, 0.05);
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid rgba(124, 58, 237, 0.2);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--light);
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(124, 58, 237, 0.3);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.3);
+        }
+
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .checkbox-group input {
+            width: auto;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(124, 58, 237, 0.4);
+        }
+
+        /* Social */
+        .social-links {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 25px;
+            background: rgba(124, 58, 237, 0.1);
+            border: 2px solid var(--primary);
+            border-radius: 25px;
+            color: var(--text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-btn:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 60px;
+            border-top: 2px solid rgba(124, 58, 237, 0.3);
+            color: var(--text-dim);
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2em; }
+            .hero h2 { font-size: 2em; }
+            .projects-grid, .activities { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="avatar">
+                <img src="https://pbs.twimg.com/profile_images/1929617638654611456/HvLsm_We_400x400.jpg" alt="Avatar" onerror="this.src='https://via.placeholder.com/120/7c3aed/ffffff?text=S'">
+            </div>
+            <h1>stor4m</h1>
+            <p class="subtitle">Developer & Designer</p>
+            <nav>
+                <a class="nav-link active" onclick="showSection('home')">Ana Sayfa</a>
+                <a class="nav-link" onclick="showSection('about')">Hakkımda</a>
+                <a class="nav-link" onclick="showSection('projects')">Projeler</a>
+                <a class="nav-link" onclick="showSection('contact')">İletişim</a>
+            </nav>
+        </header>
 
-<nav>
-  <a class="logo" href="#hero" id="dynamicLogo">M1SLY</a>
-  <ul class="nav-links">
-    <li><a href="#hero">Home</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#pricing">Pricing</a></li>
-    <li><a href="#work">Work</a></li>
-    <li><a href="#faq">FAQ</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-  <div class="nav-r">
-    <a href="https://discord.gg/8vd3MZ5VYH" target="_blank" class="btn btn-discord btn-sm" style="background:#5865F2; padding:8px 18px; font-size:0.7rem;">Discord</a>
-  </div>
-</nav>
+        <!-- Home -->
+        <section id="home" class="section active">
+            <div class="hero">
+                <h2>Merhaba! 👋</h2>
+                <p>Ben stor4m, yazılım geliştirici ve tasarımcıyım.</p>
+                <div class="stats">
+                    <div class="stat-item">
+                        <span class="stat-number" id="projectCount">3</span>
+                        <span class="stat-label">Proje</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">∞</span>
+                        <span class="stat-label">Kahve</span>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-<section id="hero">
-  <div class="hero-l">
-    <div class="hero-eyebrow"><span class="hero-dot"></span><span>Available for commissions</span></div>
-    <h1 class="hero-title">Roblox<br/><span class="nt">UI Design</span></h1>
-    <div class="hero-sub-title" style="letter-spacing:8px; font-weight:300; margin-bottom:32px;">By M1SLY®</div>
-    <p class="hero-desc" style="color:var(--tx2); margin-bottom:36px;">Interfaces that feel native, look sharp and work exactly how players expect.</p>
-    <div class="hero-btns" style="display:flex; gap:12px;">
-      <a href="#work" class="btn btn-neon">View Work</a>
-      <a href="#pricing" class="btn btn-ghost">Pricing</a>
+        <!-- About -->
+        <section id="about" class="section">
+            <h2>Meşguliyetlerim</h2>
+            <div class="activities">
+                <div class="activity-card">
+                    <div class="activity-icon">💻</div>
+                    <h3>Yazılım Geliştirme</h3>
+                    <p>Web ve uygulama geliştirme projelerinde aktif olarak çalışıyorum.</p>
+                </div>
+                <div class="activity-card">
+                    <div class="activity-icon">🎨</div>
+                    <h3>Tasarım</h3>
+                    <p>Kullanıcı deneyimi odaklı modern tasarımlar yapıyorum.</p>
+                </div>
+                <div class="activity-card">
+                    <div class="activity-icon">🚀</div>
+                    <h3>Yeni Teknolojiler</h3>
+                    <p>Sürekli öğreniyor ve yeni teknolojileri deniyorum.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects -->
+        <section id="projects" class="section">
+            <h2>Projelerim</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <img src="https://via.placeholder.com/400x200/7c3aed/ffffff?text=Proje+1" class="project-image">
+                    <div class="project-content">
+                        <h3 class="project-title">Proje 1</h3>
+                        <p class="project-description">Harika bir web projesi açıklaması buraya gelecek.</p>
+                        <a href="#" class="project-link">Detayları Gör →</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <img src="https://via.placeholder.com/400x200/a78bfa/ffffff?text=Proje+2" class="project-image">
+                    <div class="project-content">
+                        <h3 class="project-title">Proje 2</h3>
+                        <p class="project-description">Modern bir uygulama açıklaması buraya gelecek.</p>
+                        <a href="#" class="project-link">Detayları Gör →</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <img src="https://via.placeholder.com/400x200/7c3aed/ffffff?text=Proje+3" class="project-image">
+                    <div class="project-content">
+                        <h3 class="project-title">Proje 3</h3>
+                        <p class="project-description">Yenilikçi bir tasarım açıklaması buraya gelecek.</p>
+                        <a href="#" class="project-link">Detayları Gör →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact -->
+        <section id="contact" class="section">
+            <h2>İletişim</h2>
+            
+            <div class="terms-box">
+                <h3>⚠️ İletişim Şartları</h3>
+                <ul class="terms-list">
+                    <li>✅ Projeler için minimum bütçe belirtiniz</li>
+                    <li>✅ Detaylı proje açıklaması yapınız</li>
+                    <li>✅ Saygılı ve profesyonel olunuz</li>
+                    <li>❌ Ücretsiz iş talep etmeyiniz</li>
+                    <li>❌ Spam yapmayınız</li>
+                </ul>
+            </div>
+
+            <form class="contact-form" onsubmit="submitForm(event)">
+                <div class="form-group">
+                    <label>İsim</label>
+                    <input type="text" id="name" required placeholder="Adınız Soyadınız">
+                </div>
+                <div class="form-group">
+                    <label>E-posta</label>
+                    <input type="email" id="email" required placeholder="ornek@email.com">
+                </div>
+                <div class="form-group">
+                    <label>Bütçe (₺)</label>
+                    <input type="number" id="budget" required placeholder="Minimum bütçeniz">
+                </div>
+                <div class="form-group">
+                    <label>Mesaj</label>
+                    <textarea id="message" required placeholder="Proje detaylarınızı yazınız..." rows="5"></textarea>
+                </div>
+                <div class="form-group checkbox-group">
+                    <label>
+                        <input type="checkbox" id="terms" required>
+                        <span>Şartları okudum ve kabul ediyorum</span>
+                    </label>
+                </div>
+                <button type="submit" class="submit-btn">Gönder</button>
+            </form>
+
+            <div class="social-links">
+                <a href="https://twitter.com/stor4m" target="_blank" class="social-btn">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                    Twitter
+                </a>
+                <a href="https://github.com/stor4m" target="_blank" class="social-btn">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    GitHub
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>© 2024 stor4m - Tüm hakları saklıdır.</p>
+        </footer>
     </div>
-  </div>
-  <div class="hero-r">
-    <div style="width:320px; height:380px; border:1px solid var(--neon); position:relative; display:flex; align-items:center; justify-content:center; font-size:5rem;">🎨</div>
-  </div>
-</section>
 
-<section id="about" class="si">
-  <div class="sec-head"><div class="sec-num">01 / About</div><h2 class="sec-title">Built with<br/>Intent.</h2></div>
-  <div style="display:grid; grid-template-columns: 1.2fr 1fr; gap:80px;">
-    <div>
-      <p style="color:var(--tx2); line-height:1.9; margin-bottom:20px;">I design Roblox game interfaces that feel native to the platform — clean layouts, sharp typography and smooth interactions.</p>
-      <div class="srv-grid">
-        <div class="srv">▸ <div><strong>Any Roblox UI type</strong><br/><span style="font-size:0.7rem; color:var(--tx3)">HUDs, menus, shops, inventories</span></div></div>
-        <div class="srv">▸ <div><strong>Studio-ready output</strong><br/><span style="font-size:0.7rem; color:var(--tx3)">Image sizes, font compatibility</span></div></div>
-      </div>
-    </div>
-    <div style="background:var(--card); padding:20px; border:1px solid var(--border);">
-        <div style="font-size:0.6rem; color:var(--neon); margin-bottom:15px; letter-spacing:2px;">QUICK INFO</div>
-        <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding:8px 0;"><span>Payment</span><strong>Robux / TL</strong></div>
-        <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding:8px 0;"><span>Timezone</span><strong>UTC+3</strong></div>
-        <div style="display:flex; justify-content:space-between; padding:8px 0;"><span>Status</span><strong style="color:var(--neon)">● Open</strong></div>
-    </div>
-  </div>
-</section>
+    <script>
+        function showSection(sectionId) {
+            // Tüm sectionları gizle
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            // Tüm nav linklerden active kaldır
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            
+            // Seçileni göster
+            document.getElementById(sectionId).classList.add('active');
+            // Nav linkini aktif yap
+            event.target.classList.add('active');
+        }
 
-<section id="pricing" class="si" style="background:var(--bg2)">
-  <div class="sec-head" style="text-align:center"><div class="sec-num">02 / Pricing</div><h2 class="sec-title">Flat rate.</h2></div>
-  <div class="price-grid">
-    <div class="pc"><span>Starter</span><div style="font-size:2rem; font-weight:900; margin:10px 0;">500–1K</div><p style="color:var(--tx3)">Single frame or small panel</p></div>
-    <div class="pc" style="background:var(--bg3); border-top:2px solid var(--neon)"><span>General</span><div style="font-size:2rem; font-weight:900; margin:10px 0;">2K–5K</div><p style="color:var(--tx3)">Full HUD / multi-screen</p></div>
-    <div class="pc"><span>Custom</span><div style="font-size:2rem; font-weight:900; margin:10px 0;">Quote</div><p style="color:var(--tx3)">Larger or complex scopes</p></div>
-  </div>
-</section>
-
-<section id="work" class="si">
-  <div class="sec-head"><div class="sec-num">03 / Work</div><h2 class="sec-title">Selected Projects.</h2></div>
-  <div class="twitter-wrapper">
-    <a class="twitter-timeline" data-height="700" data-theme="dark" href="https://twitter.com/stor4m?ref_src=twsrc%5Etfw">Loading tweets...</a> 
-    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-  </div>
-</section>
-
-<section id="contact" class="si" style="background:var(--bg2)">
-  <div class="sec-head" style="text-align:center"><div class="sec-num">05 / Contact</div><h2 class="sec-title">Let's build.</h2></div>
-  <div style="max-width:600px; margin:0 auto;">
-    <div class="contact-form">
-      <div class="fg"><label>Discord Username</label><input type="text" id="f-name" placeholder="User#0000"></div>
-      <div class="fg"><label>Game / Project Link</label><input type="text" id="f-game" placeholder="Roblox link"></div>
-      <div class="fg"><label>Details</label><textarea id="f-details" rows="5" placeholder="Tell me about your project..."></textarea></div>
-      <button class="btn btn-neon" style="width:100%; border-radius:0; padding:20px;" onclick="sendEmail()">→ Send Request</button>
-    </div>
-  </div>
-</section>
-
-<div id="ep">
-  <h4 style="color:var(--neon)">ADMIN PANEL</h4>
-  <p style="font-size:10px; color:var(--tx3)">Sadece senin için aktif.</p>
-  <button onclick="location.reload()" style="margin-top:10px; width:100%; cursor:pointer;">Refresh</button>
-</div>
-
-<script>
-// 1. LOGO FONT ANIMASYONU
-const fonts = ['Inter', 'Space Mono', 'Playfair Display', 'Bebas Neue', 'Courier Prime', 'Impact'];
-let fIdx = 0;
-setInterval(() => {
-  document.getElementById('dynamicLogo').style.fontFamily = fonts[fIdx];
-  fIdx = (fIdx + 1) % fonts.length;
-}, 1000);
-
-// 2. GİZLİ PANEL (CTRL + L)
-document.addEventListener('keydown', (e) => {
-  if (e.ctrlKey && e.key === 'l') {
-    const p = document.getElementById('ep');
-    p.style.display = (p.style.display === 'block') ? 'none' : 'block';
-  }
-});
-
-// 3. MAIL GÖNDERME
-function sendEmail(){
-  const n=document.getElementById('f-name').value;
-  const g=document.getElementById('f-game').value;
-  const d=document.getElementById('f-details').value;
-  if(!n || !d){ alert('Please fill Discord and Details.'); return; }
-  window.location.href = `mailto:iletisim@example.com?subject=Commission&body=Discord: ${n}%0AProject: ${g}%0ADetails: ${d}`;
-}
-</script>
+        function submitForm(e) {
+            e.preventDefault();
+            
+            if (!document.getElementById('terms').checked) {
+                alert('Lütfen şartları kabul ediniz!');
+                return;
+            }
+            
+            alert('Mesajınız alındı! En kısa sürede dönüş yapılacaktır.');
+            e.target.reset();
+        }
+    </script>
 </body>
 </html>
-
