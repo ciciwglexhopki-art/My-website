@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>stor4m - Portfolio</title>
+    <title>stor4m</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -11,48 +12,66 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --primary: #7c3aed;
-            --secondary: #a78bfa;
-            --dark: #0f0f23;
-            --darker: #050510;
-            --light: #e9d5ff;
-            --text: #e2e8f0;
-            --text-dim: #94a3b8;
-            --success: #10b981;
-            --danger: #ef4444;
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
-            color: var(--text);
-            min-height: 100vh;
-            line-height: 1.6;
+        /* Animated Background */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 0, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 0, 128, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(0, 212, 255, 0.1) 0%, transparent 40%);
+            z-index: -1;
+        }
+
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            z-index: -1;
+            pointer-events: none;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 900px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 40px 20px;
         }
 
         /* Header */
         header {
             text-align: center;
-            padding: 40px 0;
-            border-bottom: 2px solid rgba(124, 58, 237, 0.3);
-            margin-bottom: 40px;
+            padding: 60px 0;
         }
 
         .avatar {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 20px;
+            width: 130px;
+            height: 130px;
+            margin: 0 auto 25px;
             border-radius: 50%;
             overflow: hidden;
-            border: 4px solid var(--primary);
-            box-shadow: 0 0 30px rgba(124, 58, 237, 0.5);
+            border: 3px solid rgba(255,255,255,0.1);
+            box-shadow: 0 0 60px rgba(120, 0, 255, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 80px rgba(120, 0, 255, 0.5);
         }
 
         .avatar img {
@@ -61,429 +80,514 @@
             object-fit: cover;
         }
 
-        h1 {
+        .username {
             font-size: 2.5em;
-            color: var(--light);
-            margin-bottom: 10px;
-            text-shadow: 0 0 20px rgba(124, 58, 237, 0.5);
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
         }
 
-        .subtitle {
-            color: var(--text-dim);
+        .bio {
+            color: #888;
             font-size: 1.1em;
             margin-bottom: 30px;
+        }
+
+        /* Status Badge */
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 50px;
+            color: #10b981;
+            font-size: 0.9em;
+            margin-bottom: 30px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
 
         /* Navigation */
         nav {
             display: flex;
-            gap: 15px;
             justify-content: center;
+            gap: 8px;
             flex-wrap: wrap;
+            padding: 15px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
         }
 
-        .nav-link {
-            color: var(--text);
-            text-decoration: none;
-            padding: 10px 25px;
-            border-radius: 25px;
-            background: rgba(124, 58, 237, 0.1);
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
+        .nav-btn {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            color: #888;
+            font-size: 0.95em;
+            font-weight: 500;
             cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            font-family: inherit;
         }
 
-        .nav-link:hover, .nav-link.active {
-            background: var(--primary);
-            border-color: var(--secondary);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(124, 58, 237, 0.4);
+        .nav-btn:hover {
+            color: #fff;
+            background: rgba(255,255,255,0.05);
+        }
+
+        .nav-btn.active {
+            color: #fff;
+            background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+            box-shadow: 0 4px 20px rgba(124, 58, 237, 0.4);
         }
 
         /* Sections */
         .section {
             display: none;
-            animation: fadeIn 0.5s ease;
+            animation: fadeUp 0.5s ease;
         }
 
         .section.active {
             display: block;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        h2 {
-            font-size: 2em;
+        .section-title {
+            font-size: 1.8em;
+            font-weight: 700;
             margin-bottom: 30px;
-            color: var(--light);
-            text-align: center;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
-        /* Hero */
-        .hero {
-            text-align: center;
-            padding: 60px 20px;
+        .section-title span {
+            font-size: 1.2em;
         }
 
-        .hero h2 {
+        /* Cards */
+        .card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .card:hover {
+            border-color: rgba(124, 58, 237, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        /* About Section */
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .about-card {
+            text-align: center;
+            padding: 40px 25px;
+        }
+
+        .about-icon {
             font-size: 3em;
             margin-bottom: 20px;
+            display: block;
         }
 
-        .hero p {
-            font-size: 1.3em;
-            color: var(--text-dim);
-            margin-bottom: 40px;
-        }
-
-        .stats {
-            display: flex;
-            gap: 40px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .stat-item {
-            display: flex;
-            flex-direction: column;
-            padding: 30px;
-            background: rgba(124, 58, 237, 0.1);
-            border-radius: 15px;
-            border: 2px solid var(--primary);
-            min-width: 150px;
-        }
-
-        .stat-number {
-            font-size: 3em;
-            font-weight: bold;
-            color: var(--primary);
-        }
-
-        .stat-label {
-            color: var(--text-dim);
-        }
-
-        /* Activities */
-        .activities {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-top: 40px;
-        }
-
-        .activity-card {
-            background: rgba(124, 58, 237, 0.05);
-            padding: 30px;
-            border-radius: 15px;
-            border: 2px solid rgba(124, 58, 237, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .activity-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.3);
-        }
-
-        .activity-icon {
-            font-size: 3em;
-            margin-bottom: 15px;
-        }
-
-        .activity-card h3 {
-            color: var(--light);
+        .about-card h3 {
+            font-size: 1.2em;
             margin-bottom: 10px;
+            color: #fff;
         }
 
-        .activity-card p {
-            color: var(--text-dim);
+        .about-card p {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.6;
         }
 
         /* Projects */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
-            margin-top: 40px;
-        }
-
         .project-card {
-            background: rgba(124, 58, 237, 0.05);
-            border-radius: 15px;
-            overflow: hidden;
-            border: 2px solid rgba(124, 58, 237, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .project-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.3);
+            display: flex;
+            gap: 25px;
+            align-items: flex-start;
         }
 
         .project-image {
-            width: 100%;
-            height: 200px;
+            width: 120px;
+            height: 120px;
+            border-radius: 16px;
             object-fit: cover;
+            flex-shrink: 0;
+            border: 2px solid rgba(255,255,255,0.1);
         }
 
-        .project-content {
-            padding: 20px;
-        }
-
-        .project-title {
+        .project-info h3 {
             font-size: 1.3em;
-            color: var(--light);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+            color: #fff;
         }
 
-        .project-description {
-            color: var(--text-dim);
+        .project-info p {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.6;
             margin-bottom: 15px;
+        }
+
+        .project-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .tag {
+            padding: 5px 12px;
+            background: rgba(124, 58, 237, 0.15);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: 6px;
+            font-size: 0.8em;
+            color: #a78bfa;
         }
 
         .project-link {
-            color: var(--primary);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #7c3aed;
             text-decoration: none;
-            font-weight: bold;
+            font-weight: 600;
+            font-size: 0.95em;
+            transition: gap 0.3s ease;
         }
 
         .project-link:hover {
-            color: var(--secondary);
+            gap: 10px;
         }
 
-        /* Terms */
+        /* Contact Section */
         .terms-box {
-            background: rgba(239, 68, 68, 0.1);
-            border: 2px solid var(--danger);
-            border-radius: 15px;
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(239, 68, 68, 0.05) 100%);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 16px;
             padding: 25px;
             margin-bottom: 30px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
         }
 
         .terms-box h3 {
-            color: var(--danger);
+            color: #ef4444;
+            font-size: 1.1em;
             margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .terms-list {
             list-style: none;
+            display: grid;
+            gap: 10px;
         }
 
         .terms-list li {
-            padding: 8px 0;
+            color: #999;
+            font-size: 0.95em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         /* Form */
-        .contact-form {
-            background: rgba(124, 58, 237, 0.05);
-            padding: 30px;
-            border-radius: 15px;
-            border: 2px solid rgba(124, 58, 237, 0.2);
-            max-width: 600px;
-            margin: 0 auto;
+        .form-card {
+            padding: 35px;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 8px;
-            color: var(--light);
+            margin-bottom: 10px;
+            color: #fff;
             font-weight: 500;
+            font-size: 0.95em;
         }
 
-        .form-group input, .form-group textarea {
+        .form-group input,
+        .form-group textarea {
             width: 100%;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(124, 58, 237, 0.3);
-            border-radius: 8px;
-            color: var(--text);
+            padding: 15px 18px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: #fff;
             font-size: 1em;
+            font-family: inherit;
             transition: all 0.3s ease;
         }
 
-        .form-group input:focus, .form-group textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 15px rgba(124, 58, 237, 0.3);
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #444;
         }
 
-        .checkbox-group label {
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #7c3aed;
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .checkbox-group {
             display: flex;
             align-items: center;
-            gap: 10px;
-            cursor: pointer;
+            gap: 12px;
         }
 
         .checkbox-group input {
-            width: auto;
+            width: 20px;
+            height: 20px;
+            accent-color: #7c3aed;
+        }
+
+        .checkbox-group span {
+            color: #888;
+            font-size: 0.9em;
         }
 
         .submit-btn {
             width: 100%;
-            padding: 15px;
-            background: var(--primary);
-            color: white;
+            padding: 16px;
+            background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
             border: none;
-            border-radius: 8px;
-            font-size: 1.1em;
-            font-weight: bold;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1.05em;
+            font-weight: 600;
             cursor: pointer;
+            font-family: inherit;
             transition: all 0.3s ease;
         }
 
         .submit-btn:hover {
-            background: var(--secondary);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(124, 58, 237, 0.4);
+            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.4);
         }
 
-        /* Social */
-        .social-links {
+        /* Social Links */
+        .social-grid {
             display: flex;
             gap: 15px;
             justify-content: center;
-            margin-top: 40px;
+            margin-top: 30px;
+            flex-wrap: wrap;
         }
 
-        .social-btn {
+        .social-link {
             display: flex;
             align-items: center;
             gap: 10px;
-            padding: 12px 25px;
-            background: rgba(124, 58, 237, 0.1);
-            border: 2px solid var(--primary);
-            border-radius: 25px;
-            color: var(--text);
+            padding: 14px 28px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            color: #fff;
             text-decoration: none;
+            font-weight: 500;
             transition: all 0.3s ease;
         }
 
-        .social-btn:hover {
-            background: var(--primary);
-            transform: translateY(-2px);
+        .social-link:hover {
+            background: rgba(255,255,255,0.08);
+            transform: translateY(-3px);
+        }
+
+        .social-link svg {
+            width: 20px;
+            height: 20px;
         }
 
         /* Footer */
         footer {
             text-align: center;
-            padding: 40px 0;
-            margin-top: 60px;
-            border-top: 2px solid rgba(124, 58, 237, 0.3);
-            color: var(--text-dim);
+            padding: 50px 0;
+            color: #444;
+            font-size: 0.9em;
         }
 
-        @media (max-width: 768px) {
-            h1 { font-size: 2em; }
-            .hero h2 { font-size: 2em; }
-            .projects-grid, .activities { grid-template-columns: 1fr; }
+        /* Responsive */
+        @media (max-width: 600px) {
+            .username { font-size: 2em; }
+            .project-card { flex-direction: column; }
+            .project-image { width: 100%; height: 180px; }
+            .nav-btn { padding: 10px 18px; font-size: 0.9em; }
         }
     </style>
 </head>
 <body>
+    <div class="bg-gradient"></div>
+    <div class="noise"></div>
+
     <div class="container">
-        <!-- Header -->
         <header>
             <div class="avatar">
-                <img src="https://pbs.twimg.com/profile_images/1929617638654611456/HvLsm_We_400x400.jpg" alt="Avatar" onerror="this.src='https://via.placeholder.com/120/7c3aed/ffffff?text=S'">
+                <img src="https://pbs.twimg.com/profile_images/1929617638654611456/HvLsm_We_400x400.jpg" alt="stor4m">
             </div>
-            <h1>stor4m</h1>
-            <p class="subtitle">Developer & Designer</p>
+            <h1 class="username">stor4m</h1>
+            <p class="bio">Developer & Designer</p>
+            <div class="status">
+                <div class="status-dot"></div>
+                Müsait
+            </div>
             <nav>
-                <a class="nav-link active" onclick="showSection('home')">Ana Sayfa</a>
-                <a class="nav-link" onclick="showSection('about')">Hakkımda</a>
-                <a class="nav-link" onclick="showSection('projects')">Projeler</a>
-                <a class="nav-link" onclick="showSection('contact')">İletişim</a>
+                <button class="nav-btn active" onclick="showSection('home', this)">🏠 Ana Sayfa</button>
+                <button class="nav-btn" onclick="showSection('about', this)">👤 Hakkımda</button>
+                <button class="nav-btn" onclick="showSection('projects', this)">🚀 Projeler</button>
+                <button class="nav-btn" onclick="showSection('contact', this)">📬 İletişim</button>
             </nav>
         </header>
 
-        <!-- Home -->
+        <!-- HOME -->
         <section id="home" class="section active">
-            <div class="hero">
-                <h2>Merhaba! 👋</h2>
-                <p>Ben stor4m, yazılım geliştirici ve tasarımcıyım.</p>
-                <div class="stats">
-                    <div class="stat-item">
-                        <span class="stat-number" id="projectCount">3</span>
-                        <span class="stat-label">Proje</span>
+            <div class="card" style="text-align: center; padding: 60px 30px;">
+                <h2 style="font-size: 2.5em; margin-bottom: 20px;">Merhaba! 👋</h2>
+                <p style="color: #888; font-size: 1.2em; max-width: 500px; margin: 0 auto 40px;">
+                    Yazılım geliştirici ve tasarımcıyım. Modern ve kullanıcı dostu projeler üretiyorum.
+                </p>
+                <div style="display: flex; gap: 30px; justify-content: center; flex-wrap: wrap;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 3em; font-weight: 800; color: #7c3aed;">3+</div>
+                        <div style="color: #666;">Proje</div>
                     </div>
-                    <div class="stat-item">
-                        <span class="stat-number">∞</span>
-                        <span class="stat-label">Kahve</span>
+                    <div style="text-align: center;">
+                        <div style="font-size: 3em; font-weight: 800; color: #7c3aed;">2+</div>
+                        <div style="color: #666;">Yıl Deneyim</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 3em; font-weight: 800; color: #7c3aed;">∞</div>
+                        <div style="color: #666;">Kahve</div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- About -->
+        <!-- ABOUT -->
         <section id="about" class="section">
-            <h2>Meşguliyetlerim</h2>
-            <div class="activities">
-                <div class="activity-card">
-                    <div class="activity-icon">💻</div>
+            <h2 class="section-title"><span>👤</span> Hakkımda</h2>
+            <div class="about-grid">
+                <div class="card about-card">
+                    <span class="about-icon">💻</span>
                     <h3>Yazılım Geliştirme</h3>
-                    <p>Web ve uygulama geliştirme projelerinde aktif olarak çalışıyorum.</p>
+                    <p>Web ve mobil uygulama geliştirme konusunda deneyimliyim.</p>
                 </div>
-                <div class="activity-card">
-                    <div class="activity-icon">🎨</div>
-                    <h3>Tasarım</h3>
-                    <p>Kullanıcı deneyimi odaklı modern tasarımlar yapıyorum.</p>
+                <div class="card about-card">
+                    <span class="about-icon">🎨</span>
+                    <h3>UI/UX Tasarım</h3>
+                    <p>Kullanıcı deneyimi odaklı modern arayüzler tasarlıyorum.</p>
                 </div>
-                <div class="activity-card">
-                    <div class="activity-icon">🚀</div>
-                    <h3>Yeni Teknolojiler</h3>
-                    <p>Sürekli öğreniyor ve yeni teknolojileri deniyorum.</p>
+                <div class="card about-card">
+                    <span class="about-icon">⚡</span>
+                    <h3>Hızlı Teslimat</h3>
+                    <p>Projeleri zamanında ve kaliteli şekilde teslim ediyorum.</p>
                 </div>
             </div>
         </section>
 
-        <!-- Projects -->
+        <!-- PROJECTS -->
         <section id="projects" class="section">
-            <h2>Projelerim</h2>
-            <div class="projects-grid">
-                <div class="project-card">
-                    <img src="https://via.placeholder.com/400x200/7c3aed/ffffff?text=Proje+1" class="project-image">
-                    <div class="project-content">
-                        <h3 class="project-title">Proje 1</h3>
-                        <p class="project-description">Harika bir web projesi açıklaması buraya gelecek.</p>
-                        <a href="#" class="project-link">Detayları Gör →</a>
+            <h2 class="section-title"><span>🚀</span> Projelerim</h2>
+            
+            <div class="card project-card">
+                <img src="https://opengraph.githubassets.com/1/stor4m/project1" class="project-image" onerror="this.src='https://via.placeholder.com/120x120/7c3aed/ffffff?text=P1'">
+                <div class="project-info">
+                    <h3>Discord Bot</h3>
+                    <p>Gelişmiş moderasyon ve müzik özellikleri olan bir Discord botu. Kullanıcı dostu komutlar ve dashboard desteği.</p>
+                    <div class="project-tags">
+                        <span class="tag">Node.js</span>
+                        <span class="tag">Discord.js</span>
+                        <span class="tag">MongoDB</span>
                     </div>
+                    <a href="https://github.com/stor4m" target="_blank" class="project-link">
+                        GitHub'da Gör →
+                    </a>
                 </div>
-                <div class="project-card">
-                    <img src="https://via.placeholder.com/400x200/a78bfa/ffffff?text=Proje+2" class="project-image">
-                    <div class="project-content">
-                        <h3 class="project-title">Proje 2</h3>
-                        <p class="project-description">Modern bir uygulama açıklaması buraya gelecek.</p>
-                        <a href="#" class="project-link">Detayları Gör →</a>
+            </div>
+
+            <div class="card project-card">
+                <img src="https://opengraph.githubassets.com/1/stor4m/project2" class="project-image" onerror="this.src='https://via.placeholder.com/120x120/a855f7/ffffff?text=P2'">
+                <div class="project-info">
+                    <h3>Portfolio Website</h3>
+                    <p>Modern ve responsive kişisel portfolio sitesi. Glassmorphism tasarım ile şık görünüm.</p>
+                    <div class="project-tags">
+                        <span class="tag">HTML</span>
+                        <span class="tag">CSS</span>
+                        <span class="tag">JavaScript</span>
                     </div>
+                    <a href="#" class="project-link">
+                        Siteyi Gör →
+                    </a>
                 </div>
-                <div class="project-card">
-                    <img src="https://via.placeholder.com/400x200/7c3aed/ffffff?text=Proje+3" class="project-image">
-                    <div class="project-content">
-                        <h3 class="project-title">Proje 3</h3>
-                        <p class="project-description">Yenilikçi bir tasarım açıklaması buraya gelecek.</p>
-                        <a href="#" class="project-link">Detayları Gör →</a>
+            </div>
+
+            <div class="card project-card">
+                <img src="https://opengraph.githubassets.com/1/stor4m/project3" class="project-image" onerror="this.src='https://via.placeholder.com/120x120/ec4899/ffffff?text=P3'">
+                <div class="project-info">
+                    <h3>Web Uygulaması</h3>
+                    <p>Full-stack web uygulaması. Kullanıcı authentication, dashboard ve API entegrasyonu.</p>
+                    <div class="project-tags">
+                        <span class="tag">React</span>
+                        <span class="tag">Node.js</span>
+                        <span class="tag">Express</span>
                     </div>
+                    <a href="https://github.com/stor4m" target="_blank" class="project-link">
+                        GitHub'da Gör →
+                    </a>
                 </div>
             </div>
         </section>
 
-        <!-- Contact -->
+        <!-- CONTACT -->
         <section id="contact" class="section">
-            <h2>İletişim</h2>
-            
+            <h2 class="section-title"><span>📬</span> İletişim</h2>
+
             <div class="terms-box">
-                <h3>⚠️ İletişim Şartları</h3>
+                <h3>⚠️ Önemli Şartlar</h3>
                 <ul class="terms-list">
                     <li>✅ Projeler için minimum bütçe belirtiniz</li>
                     <li>✅ Detaylı proje açıklaması yapınız</li>
@@ -493,71 +597,68 @@
                 </ul>
             </div>
 
-            <form class="contact-form" onsubmit="submitForm(event)">
-                <div class="form-group">
-                    <label>İsim</label>
-                    <input type="text" id="name" required placeholder="Adınız Soyadınız">
-                </div>
-                <div class="form-group">
-                    <label>E-posta</label>
-                    <input type="email" id="email" required placeholder="ornek@email.com">
-                </div>
-                <div class="form-group">
-                    <label>Bütçe (₺)</label>
-                    <input type="number" id="budget" required placeholder="Minimum bütçeniz">
-                </div>
-                <div class="form-group">
-                    <label>Mesaj</label>
-                    <textarea id="message" required placeholder="Proje detaylarınızı yazınız..." rows="5"></textarea>
-                </div>
-                <div class="form-group checkbox-group">
-                    <label>
+            <div class="card form-card">
+                <form onsubmit="submitForm(event)">
+                    <div class="form-group">
+                        <label>İsim Soyisim</label>
+                        <input type="text" placeholder="Adınız Soyadınız" required>
+                    </div>
+                    <div class="form-group">
+                        <label>E-posta</label>
+                        <input type="email" placeholder="ornek@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Bütçe (₺)</label>
+                        <input type="number" placeholder="Minimum bütçenizi yazınız" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Mesajınız</label>
+                        <textarea placeholder="Proje detaylarını açıklayınız..." required></textarea>
+                    </div>
+                    <div class="form-group checkbox-group">
                         <input type="checkbox" id="terms" required>
                         <span>Şartları okudum ve kabul ediyorum</span>
-                    </label>
-                </div>
-                <button type="submit" class="submit-btn">Gönder</button>
-            </form>
+                    </div>
+                    <button type="submit" class="submit-btn">Gönder</button>
+                </form>
+            </div>
 
-            <div class="social-links">
-                <a href="https://twitter.com/stor4m" target="_blank" class="social-btn">
-                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            <div class="social-grid">
+                <a href="https://twitter.com/stor4m" target="_blank" class="social-link">
+                    <svg fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                     Twitter
                 </a>
-                <a href="https://github.com/stor4m" target="_blank" class="social-btn">
-                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                <a href="https://github.com/stor4m" target="_blank" class="social-link">
+                    <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
                     GitHub
+                </a>
+                <a href="https://discord.gg/stor4m" target="_blank" class="social-link">
+                    <svg fill="currentColor" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+                    Discord
                 </a>
             </div>
         </section>
 
         <footer>
-            <p>© 2024 stor4m - Tüm hakları saklıdır.</p>
+            <p>© 2024 stor4m — Tüm hakları saklıdır.</p>
         </footer>
     </div>
 
     <script>
-        function showSection(sectionId) {
-            // Tüm sectionları gizle
+        function showSection(id, btn) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            // Tüm nav linklerden active kaldır
-            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-            
-            // Seçileni göster
-            document.getElementById(sectionId).classList.add('active');
-            // Nav linkini aktif yap
-            event.target.classList.add('active');
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            btn.classList.add('active');
         }
 
         function submitForm(e) {
             e.preventDefault();
-            
             if (!document.getElementById('terms').checked) {
-                alert('Lütfen şartları kabul ediniz!');
+                alert('Şartları kabul etmelisiniz!');
                 return;
             }
-            
-            alert('Mesajınız alındı! En kısa sürede dönüş yapılacaktır.');
+            alert('✅ Mesajınız alındı! En kısa sürede dönüş yapılacaktır.');
             e.target.reset();
         }
     </script>
